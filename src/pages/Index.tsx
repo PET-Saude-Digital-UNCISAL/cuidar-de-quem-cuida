@@ -212,12 +212,22 @@ const Index = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white/60 backdrop-blur-sm mt-12 py-6">
-        <div className="container mx-auto px-4 text-center">
+      <footer className="bg-white/60 backdrop-blur-sm mt-12 py-8">
+        <div className="container mx-auto px-4 text-center space-y-4">
           <p className="text-sm text-muted-foreground flex items-center justify-center gap-2">
             <Droplets className="w-4 h-4 text-secondary" />
             Feito com cuidado para quem cuida
           </p>
+          <div className="border-t border-gray-200 pt-4">
+            <p className="text-xs text-muted-foreground mb-2">
+              Projeto desenvolvido para o <strong>PET Saúde da UNCISAL</strong>
+            </p>
+            <p className="text-xs text-muted-foreground">
+              <strong>Desenvolvido pelas alunas:</strong><br />
+              Vitória Manuelly Alves Ribeiro - Tecnologia em Radiologia<br />
+              Daniely Evellin da Silva Vasconcelos - Sistemas para Internet
+            </p>
+          </div>
         </div>
       </footer>
     </div>
