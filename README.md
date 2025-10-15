@@ -67,7 +67,7 @@ Fornecer uma ferramenta digital acessível que auxilie pais e cuidadores a:
 
 1. Clone o repositório:
 ```bash
-git clone [URL_DO_REPOSITORIO]
+git clone https://github.com/SEU_USUARIO/cuidar-de-quem-cuida.git
 cd cuidar-de-quem-cuida
 ```
 
@@ -93,6 +93,13 @@ http://localhost:5173
 - `npm run build:dev` - Gera build de desenvolvimento
 - `npm run preview` - Visualiza o build de produção
 - `npm run lint` - Executa o linter
+
+### 🌐 Acesso Online
+
+O projeto está disponível online no GitHub Pages:
+```
+https://SEU_USUARIO.github.io/cuidar-de-quem-cuida/
+```
 
 ## 🏗️ Estrutura do Projeto
 
