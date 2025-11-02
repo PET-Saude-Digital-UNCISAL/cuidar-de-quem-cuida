@@ -67,7 +67,7 @@ Fornecer uma ferramenta digital acessível que auxilie pais e cuidadores a:
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/SEU_USUARIO/cuidar-de-quem-cuida.git
+git clone https://github.com/NOME_DA_ORGANIZACAO/cuidar-de-quem-cuida.git
 cd cuidar-de-quem-cuida
 ```
 
@@ -98,7 +98,7 @@ http://localhost:5173
 
 O projeto está disponível online no GitHub Pages:
 ```
-https://SEU_USUARIO.github.io/cuidar-de-quem-cuida/
+https://NOME_DA_ORGANIZACAO.github.io/cuidar-de-quem-cuida/
 ```
 
 ## 🏗️ Estrutura do Projeto
@@ -159,7 +159,6 @@ Este projeto é resultado do **Programa de Educação pelo Trabalho para a Saúd
 ## 🤝 Contribuições
 
 Este projeto foi desenvolvido com fins educacionais e de saúde pública. Sugestões e melhorias são bem-vindas através de issues e pull requests.
-
 
 ---
 
