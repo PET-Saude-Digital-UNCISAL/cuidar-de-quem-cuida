@@ -5,6 +5,7 @@ import ChecklistItem from "@/components/ChecklistItem";
 import ProgressFlower from "@/components/ProgressFlower";
 import AlertSection from "@/components/AlertSection";
 import ReflectionBox from "@/components/ReflectionBox";
+import TextToSpeech from "@/components/TextToSpeech";
 import { useToast } from "@/hooks/use-toast";
 
 interface ChecklistState {
@@ -96,14 +97,20 @@ const Index = () => {
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-3">
-            <Heart className="text-primary w-8 h-8" />
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">Cuidar de Quem Cuida</h1>
-              <p className="text-sm text-muted-foreground">
-                Dicas para prevenir a sobrecarga emocional e o burnout parental
-              </p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Heart className="text-primary w-8 h-8" />
+              <div>
+                <h1 className="text-3xl font-bold text-foreground">Cuidar de Quem Cuida</h1>
+                <p className="text-sm text-muted-foreground">
+                  Dicas para prevenir a sobrecarga emocional e o burnout parental
+                </p>
+              </div>
             </div>
+            <TextToSpeech 
+              text="Bem-vindo ao Cuidar de Quem Cuida. Uma ferramenta para ajudar pais e cuidadores a prevenir a sobrecarga emocional e o burnout parental. Use os botões de áudio para ouvir o conteúdo de cada seção."
+              className="hidden sm:flex"
+            />
           </div>
         </div>
       </header>
@@ -126,10 +133,15 @@ const Index = () => {
           <div className="space-y-6">
             {/* Como usar */}
             <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-card animate-fade-in">
-              <h3 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                <Sun className="w-5 h-5 text-primary" />
-                Como usar este checklist
-              </h3>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-semibold text-foreground flex items-center gap-2">
+                  <Sun className="w-5 h-5 text-primary" />
+                  Como usar este checklist
+                </h3>
+                <TextToSpeech 
+                  text="Como usar este checklist: Marque o que conseguiu fazer hoje, sem culpa se nem tudo estiver marcado. Leia como um lembrete gentil, não como uma lista de tarefas. Tire um momento de respiração antes de começar."
+                />
+              </div>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>• Marque o que conseguiu fazer hoje — sem culpa se nem tudo estiver marcado</li>
                 <li>• Leia como um lembrete gentil, não como uma lista de tarefas</li>
@@ -143,6 +155,7 @@ const Index = () => {
               subtitle="Antes de cuidar, eu preciso estar bem."
               icon={<Coffee />}
               reminder='Lembrete: "Pequenos cuidados constroem grandes forças."'
+              audioText="Seção 1: Meu Cuidado Pessoal. Antes de cuidar, eu preciso estar bem. Verifique se você dormiu o suficiente, fez uma refeição com calma, tomou água, respirou profundamente e se permitiu um pequeno prazer."
             >
               {personalCareItems.map((item) => (
                 <ChecklistItem
@@ -161,6 +174,7 @@ const Index = () => {
               subtitle="Eu posso planejar, mas também posso ajustar."
               icon={<Sun />}
               reminder="Lembrete: Meu 'Adulto' pode equilibrar o que o 'Pai/Mãe protetor(a)' quer fazer e o que minha 'Criança' precisa sentir."
+              audioText="Seção 2: Minha Rotina com Leveza. Eu posso planejar, mas também posso ajustar. Verifique se você delegou tarefas, evitou assumir mais do que consegue, preparou algo para facilitar o dia seguinte, fez pausas e celebrou suas conquistas."
             >
               {routineItems.map((item) => (
                 <ChecklistItem
@@ -179,6 +193,7 @@ const Index = () => {
               subtitle="Eu não estou só — posso compartilhar o peso."
               icon={<Users />}
               reminder='Lembrete: "Quando acolho minhas emoções, abro espaço para a calma."'
+              audioText="Seção 3: Minhas Relações e Apoio. Eu não estou sozinho, posso compartilhar o peso. Verifique se você conversou com alguém de confiança, passou tempo de qualidade com seus filhos, praticou autocompaixão, reconheceu algo bom do dia e se permitiu sorrir."
             >
               {relationshipItems.map((item) => (
                 <ChecklistItem
