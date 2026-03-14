@@ -169,9 +169,6 @@ const Index = () => {
                   <Sun className="w-5 h-5 text-primary" />
                   Como usar este checklist
                 </h3>
-                <TextToSpeech 
-                  text={`Como usar este checklist. ${howToUseItems.join(". ")}.`}
-                />
               </div>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 {howToUseItems.map((item) => (
