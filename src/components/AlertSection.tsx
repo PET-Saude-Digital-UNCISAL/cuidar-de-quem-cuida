@@ -1,28 +1,34 @@
 import { AlertCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import TextToSpeech from "@/components/TextToSpeech";
 
 interface AlertSectionProps {
   alerts: { id: string; text: string; checked: boolean }[];
   onAlertChange: (id: string, checked: boolean) => void;
+  audioText?: string;
+  audioSrc?: string;
 }
 
-const AlertSection = ({ alerts, onAlertChange }: AlertSectionProps) => {
+const AlertSection = ({ alerts, onAlertChange, audioText, audioSrc }: AlertSectionProps) => {
   const checkedCount = alerts.filter(a => a.checked).length;
   const showWarning = checkedCount >= 2;
 
   return (
     <Card className="p-6 bg-card border-destructive/20 shadow-card animate-fade-in">
-      <div className="flex items-start gap-3 mb-4">
-        <AlertCircle className="text-destructive w-6 h-6 mt-1" />
-        <div className="flex-1">
-          <h2 className="text-xl font-semibold text-foreground mb-1">
-            Sinais de Alerta — Pare e Observe
-          </h2>
-          <p className="text-sm text-muted-foreground italic">
-            "Perceber é o primeiro passo para cuidar."
-          </p>
+      <div className="flex items-start justify-between gap-3 mb-4">
+        <div className="flex items-start gap-3 flex-1">
+          <AlertCircle className="text-destructive w-6 h-6 mt-1" />
+          <div className="flex-1">
+            <h2 className="text-xl font-semibold text-foreground mb-1">
+              Sinais de Alerta — Pare e Observe
+            </h2>
+            <p className="text-sm text-muted-foreground italic">
+              "Perceber é o primeiro passo para cuidar."
+            </p>
+          </div>
         </div>
+        {(audioText || audioSrc) && <TextToSpeech text={audioText} audioSrc={audioSrc} className="mt-1" />}
       </div>
 
       <div className="space-y-3 mb-4">

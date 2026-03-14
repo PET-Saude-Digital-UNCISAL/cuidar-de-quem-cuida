@@ -12,6 +12,12 @@ interface ChecklistState {
   [key: string]: boolean;
 }
 
+const buildAudioSrc = (fileName: string) => `${import.meta.env.BASE_URL}audios/${encodeURIComponent(fileName)}`;
+
+const buildSectionAudioText = (title: string, subtitle: string, items: { text: string }[]) => {
+  return `${title}. ${subtitle} ${items.map((item) => item.text).join(". ")}.`;
+};
+
 const Index = () => {
   const { toast } = useToast();
   const [checklist, setChecklist] = useState<ChecklistState>({});
@@ -84,6 +90,30 @@ const Index = () => {
     { id: "smile", text: "Sorri ou me permiti rir — mesmo que um pouquinho" },
   ];
 
+  const howToUseItems = [
+    "Marque o que conseguiu fazer hoje — sem culpa se nem tudo estiver marcado",
+    "Leia como um lembrete gentil, não como uma lista de tarefas",
+    "Tire um momento de respiração antes de começar",
+  ];
+
+  const section1Title = "1. Meu Cuidado Pessoal";
+  const section1Subtitle = "Antes de cuidar, eu preciso estar bem.";
+  const section2Title = "2. Minha Rotina com Leveza";
+  const section2Subtitle = "Eu posso planejar, mas também posso ajustar.";
+  const section3Title = "3. Minhas Relações e Apoio";
+  const section3Subtitle = "Eu não estou só — posso compartilhar o peso.";
+  const alertTitle = "Sinais de Alerta — Pare e Observe";
+  const alertSubtitle = "Perceber é o primeiro passo para cuidar.";
+  const reflectionTitle = "Espaço para Reflexão da Semana";
+  const reflectionSubtitle = "O que quero fazer por mim nos próximos dias:";
+
+  const headerAudioSrc = buildAudioSrc("Dicas para prevenir a sobrecarga emocional e o burnout parental..m4a.mp4");
+  const section1AudioSrc = buildAudioSrc("1. Meu Cuidado Pessoal.m4a.mp4");
+  const section2AudioSrc = buildAudioSrc("2. Minha Rotina com Leveza.m4a.mp4");
+  const section3AudioSrc = buildAudioSrc("3. Minhas Relações e Apoio.m4a.mp4");
+  const alertsAudioSrc = buildAudioSrc("Sinais de Alerta — Pare e Observe.m4a.mp4");
+  const reflectionAudioSrc = buildAudioSrc("Espaço para Reflexão da Semana.m4a.mp4");
+
   const alertItems = [
     { id: "alert1", text: "Me sinto constantemente cansado(a)?" },
     { id: "alert2", text: "Tenho chorado com frequência ou sentido irritação sem motivo?" },
@@ -109,6 +139,7 @@ const Index = () => {
             </div>
             <TextToSpeech 
               text="Bem-vindo ao Cuidar de Quem Cuida. Uma ferramenta para ajudar pais e cuidadores a prevenir a sobrecarga emocional e o burnout parental. Use os botões de áudio para ouvir o conteúdo de cada seção."
+              audioSrc={headerAudioSrc}
               className="hidden sm:flex"
             />
           </div>
@@ -139,23 +170,24 @@ const Index = () => {
                   Como usar este checklist
                 </h3>
                 <TextToSpeech 
-                  text="Como usar este checklist: Marque o que conseguiu fazer hoje, sem culpa se nem tudo estiver marcado. Leia como um lembrete gentil, não como uma lista de tarefas. Tire um momento de respiração antes de começar."
+                  text={`Como usar este checklist. ${howToUseItems.join(". ")}.`}
                 />
               </div>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• Marque o que conseguiu fazer hoje — sem culpa se nem tudo estiver marcado</li>
-                <li>• Leia como um lembrete gentil, não como uma lista de tarefas</li>
-                <li>• Tire um momento de respiração antes de começar</li>
+                {howToUseItems.map((item) => (
+                  <li key={item}>• {item}</li>
+                ))}
               </ul>
             </div>
 
             {/* Seção 1: Cuidado Pessoal */}
             <ChecklistSection
-              title="1. Meu Cuidado Pessoal"
-              subtitle="Antes de cuidar, eu preciso estar bem."
+              title={section1Title}
+              subtitle={section1Subtitle}
               icon={<Coffee />}
               reminder='Lembrete: "Pequenos cuidados constroem grandes forças."'
-              audioText="Seção 1: Meu Cuidado Pessoal. Antes de cuidar, eu preciso estar bem. Verifique se você dormiu o suficiente, fez uma refeição com calma, tomou água, respirou profundamente e se permitiu um pequeno prazer."
+              audioText={buildSectionAudioText(section1Title, section1Subtitle, personalCareItems)}
+              audioSrc={section1AudioSrc}
             >
               {personalCareItems.map((item) => (
                 <ChecklistItem
@@ -170,11 +202,12 @@ const Index = () => {
 
             {/* Seção 2: Rotina com Leveza */}
             <ChecklistSection
-              title="2. Minha Rotina com Leveza"
-              subtitle="Eu posso planejar, mas também posso ajustar."
+              title={section2Title}
+              subtitle={section2Subtitle}
               icon={<Sun />}
               reminder="Lembrete: Meu 'Adulto' pode equilibrar o que o 'Pai/Mãe protetor(a)' quer fazer e o que minha 'Criança' precisa sentir."
-              audioText="Seção 2: Minha Rotina com Leveza. Eu posso planejar, mas também posso ajustar. Verifique se você delegou tarefas, evitou assumir mais do que consegue, preparou algo para facilitar o dia seguinte, fez pausas e celebrou suas conquistas."
+              audioText={buildSectionAudioText(section2Title, section2Subtitle, routineItems)}
+              audioSrc={section2AudioSrc}
             >
               {routineItems.map((item) => (
                 <ChecklistItem
@@ -189,11 +222,12 @@ const Index = () => {
 
             {/* Seção 3: Relações e Apoio */}
             <ChecklistSection
-              title="3. Minhas Relações e Apoio"
-              subtitle="Eu não estou só — posso compartilhar o peso."
+              title={section3Title}
+              subtitle={section3Subtitle}
               icon={<Users />}
               reminder='Lembrete: "Quando acolho minhas emoções, abro espaço para a calma."'
-              audioText="Seção 3: Minhas Relações e Apoio. Eu não estou sozinho, posso compartilhar o peso. Verifique se você conversou com alguém de confiança, passou tempo de qualidade com seus filhos, praticou autocompaixão, reconheceu algo bom do dia e se permitiu sorrir."
+              audioText={buildSectionAudioText(section3Title, section3Subtitle, relationshipItems)}
+              audioSrc={section3AudioSrc}
             >
               {relationshipItems.map((item) => (
                 <ChecklistItem
@@ -213,10 +247,17 @@ const Index = () => {
                 checked: alerts[item.id as keyof typeof alerts],
               }))}
               onAlertChange={handleAlertChange}
+              audioText={buildSectionAudioText(alertTitle, alertSubtitle, alertItems)}
+              audioSrc={alertsAudioSrc}
             />
 
             {/* Seção 5: Reflexão */}
-            <ReflectionBox value={reflection} onChange={setReflection} />
+            <ReflectionBox
+              value={reflection}
+              onChange={setReflection}
+              audioText={`${reflectionTitle}. ${reflectionSubtitle}`}
+              audioSrc={reflectionAudioSrc}
+            />
           </div>
 
           {/* Sidebar: Flor de progresso */}

@@ -1,19 +1,73 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX, Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface TextToSpeechProps {
-  text: string;
+  text?: string;
+  audioSrc?: string;
   className?: string;
 }
 
-const TextToSpeech = ({ text, className = "" }: TextToSpeechProps) => {
+const TextToSpeech = ({ text = "", audioSrc, className = "" }: TextToSpeechProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    if (!("speechSynthesis" in window)) return;
+    if (!audioSrc) return;
+
+    const audio = new Audio(audioSrc);
+    audio.preload = "auto";
+    audioRef.current = audio;
+
+    const handlePlay = () => {
+      setIsPlaying(true);
+      setIsPaused(false);
+    };
+
+    const handlePause = () => {
+      if (audio.ended || audio.currentTime === 0) {
+        setIsPlaying(false);
+        setIsPaused(false);
+        return;
+      }
+
+      setIsPlaying(true);
+      setIsPaused(true);
+    };
+
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setIsPaused(false);
+      audio.currentTime = 0;
+    };
+
+    const handleError = () => {
+      setIsPlaying(false);
+      setIsPaused(false);
+    };
+
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("error", handleError);
+
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("error", handleError);
+      if (audioRef.current === audio) {
+        audioRef.current = null;
+      }
+    };
+  }, [audioSrc]);
+
+  useEffect(() => {
+    if (audioSrc || !("speechSynthesis" in window)) return;
 
     const synth = window.speechSynthesis;
     const loadVoices = () => setVoices(synth.getVoices());
@@ -23,11 +77,18 @@ const TextToSpeech = ({ text, className = "" }: TextToSpeechProps) => {
 
     return () => {
       synth.removeEventListener("voiceschanged", loadVoices);
+
+      synth.cancel();
     };
   }, []);
 
   const selectBestVoice = (availableVoices: SpeechSynthesisVoice[]) => {
-    if (availableVoices.length === 0) return undefined;
+    const portugueseVoices = availableVoices.filter((voice) => {
+      const lang = voice.lang.toLowerCase();
+      return lang.startsWith("pt");
+    });
+
+    if (portugueseVoices.length === 0) return undefined;
 
     const scoreVoice = (voice: SpeechSynthesisVoice) => {
       const name = voice.name.toLowerCase();
@@ -45,48 +106,63 @@ const TextToSpeech = ({ text, className = "" }: TextToSpeechProps) => {
       return score;
     };
 
-    return [...availableVoices].sort((a, b) => scoreVoice(b) - scoreVoice(a))[0];
+    return [...portugueseVoices].sort((a, b) => scoreVoice(b) - scoreVoice(a))[0];
   };
 
-  const speak = () => {
-    if ('speechSynthesis' in window) {
-      // Parar qualquer fala anterior
+  const speak = async () => {
+    if (audioRef.current) {
       window.speechSynthesis.cancel();
-      
+      audioRef.current.currentTime = 0;
+      try {
+        await audioRef.current.play();
+      } catch {
+        setIsPlaying(false);
+        setIsPaused(false);
+      }
+      return;
+    }
+
+    if ('speechSynthesis' in window && text) {
+      window.speechSynthesis.cancel();
+
       const utterance = new SpeechSynthesisUtterance(text);
       const bestVoice = selectBestVoice(voices);
 
+      utterance.lang = 'pt-BR';
+
       if (bestVoice) {
         utterance.voice = bestVoice;
-        utterance.lang = bestVoice.lang;
-      } else {
-        utterance.lang = 'pt-BR';
       }
 
-      utterance.rate = 0.95;
+      utterance.rate = 0.98;
       utterance.pitch = 1;
       utterance.volume = 1;
-      
+
       utterance.onstart = () => {
         setIsPlaying(true);
         setIsPaused(false);
       };
-      
+
       utterance.onend = () => {
         setIsPlaying(false);
         setIsPaused(false);
       };
-      
+
       utterance.onerror = () => {
         setIsPlaying(false);
         setIsPaused(false);
       };
-      
+
       window.speechSynthesis.speak(utterance);
     }
   };
 
   const pause = () => {
+    if (audioRef.current && !audioRef.current.paused) {
+      audioRef.current.pause();
+      return;
+    }
+
     if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
       window.speechSynthesis.pause();
       setIsPaused(true);
@@ -94,6 +170,11 @@ const TextToSpeech = ({ text, className = "" }: TextToSpeechProps) => {
   };
 
   const resume = () => {
+    if (audioRef.current && audioRef.current.paused && audioRef.current.currentTime > 0) {
+      void audioRef.current.play();
+      return;
+    }
+
     if (window.speechSynthesis.paused) {
       window.speechSynthesis.resume();
       setIsPaused(false);
@@ -101,12 +182,17 @@ const TextToSpeech = ({ text, className = "" }: TextToSpeechProps) => {
   };
 
   const stop = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+
     window.speechSynthesis.cancel();
     setIsPlaying(false);
     setIsPaused(false);
   };
 
-  if (!('speechSynthesis' in window)) {
+  if (!audioSrc && !("speechSynthesis" in window)) {
     return null; // Não mostrar se não suportar
   }
 

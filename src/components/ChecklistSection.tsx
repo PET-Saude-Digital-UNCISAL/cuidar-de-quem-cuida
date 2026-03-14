@@ -9,9 +9,10 @@ interface ChecklistSectionProps {
   children: ReactNode;
   reminder?: string;
   audioText?: string;
+  audioSrc?: string;
 }
 
-const ChecklistSection = ({ title, subtitle, icon, children, reminder, audioText }: ChecklistSectionProps) => {
+const ChecklistSection = ({ title, subtitle, icon, children, reminder, audioText, audioSrc }: ChecklistSectionProps) => {
   return (
     <Card className="p-6 bg-card shadow-card border-border/50 hover:shadow-gentle transition-all duration-300 animate-fade-in">
       <div className="flex items-start justify-between mb-4">
@@ -28,8 +29,8 @@ const ChecklistSection = ({ title, subtitle, icon, children, reminder, audioText
             </p>
           </div>
         </div>
-        {audioText && (
-          <TextToSpeech text={audioText} className="mt-1" />
+        {(audioText || audioSrc) && (
+          <TextToSpeech text={audioText} audioSrc={audioSrc} className="mt-1" />
         )}
       </div>
       
