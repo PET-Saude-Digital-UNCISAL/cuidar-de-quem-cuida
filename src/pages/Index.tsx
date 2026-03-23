@@ -108,6 +108,7 @@ const Index = () => {
   const reflectionSubtitle = "O que quero fazer por mim nos próximos dias:";
 
   const headerAudioSrc = buildAudioSrc("Dicas para prevenir a sobrecarga emocional e o burnout parental..m4a.mp4");
+  const howToUseAudioSrc = buildAudioSrc("Como usar este checklist.mp4");
   const section1AudioSrc = buildAudioSrc("1. Meu Cuidado Pessoal.m4a.mp4");
   const section2AudioSrc = buildAudioSrc("2. Minha Rotina com Leveza.m4a.mp4");
   const section3AudioSrc = buildAudioSrc("3. Minhas Relações e Apoio.m4a.mp4");
@@ -169,6 +170,7 @@ const Index = () => {
                   <Sun className="w-5 h-5 text-primary" />
                   Como usar este checklist
                 </h3>
+                <TextToSpeech audioSrc={howToUseAudioSrc} />
               </div>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 {howToUseItems.map((item) => (
