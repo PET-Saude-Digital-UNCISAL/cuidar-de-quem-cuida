@@ -107,13 +107,13 @@ const Index = () => {
   const reflectionTitle = "Espaço para Reflexão da Semana";
   const reflectionSubtitle = "O que quero fazer por mim nos próximos dias:";
 
-  const headerAudioSrc = buildAudioSrc("Dicas para prevenir a sobrecarga emocional e o burnout parental..m4a.mp4");
-  const howToUseAudioSrc = buildAudioSrc("Como usar este checklist.mp4");
-  const section1AudioSrc = buildAudioSrc("1. Meu Cuidado Pessoal.m4a.mp4");
-  const section2AudioSrc = buildAudioSrc("2. Minha Rotina com Leveza.m4a.mp4");
-  const section3AudioSrc = buildAudioSrc("3. Minhas Relações e Apoio.m4a.mp4");
-  const alertsAudioSrc = buildAudioSrc("Sinais de Alerta — Pare e Observe.m4a.mp4");
-  const reflectionAudioSrc = buildAudioSrc("Espaço para Reflexão da Semana.m4a.mp4");
+  const headerAudioSrc = buildAudioSrc("01Cuidar de Quem Cuida.mp4");
+  const howToUseAudioSrc = buildAudioSrc("Como usar este checklist 1.mp4");
+  const section1AudioSrc = buildAudioSrc("01Meu Cuidado Pessoal.m4a.mp4");
+  const section2AudioSrc = buildAudioSrc("02Minha Rotina com Leveza.mp4");
+  const section3AudioSrc = buildAudioSrc("03Minhas Relações e Apoio.mp4");
+  const alertsAudioSrc = buildAudioSrc("Sinais de Alerta  Pare e Observe.mp4");
+  const reflectionAudioSrc = buildAudioSrc("Espaço para Reflexão da Semana ultimo.mp4");
 
   const alertItems = [
     { id: "alert1", text: "Me sinto constantemente cansado(a)?" },
