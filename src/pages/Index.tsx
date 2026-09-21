@@ -14,6 +14,8 @@ interface ChecklistState {
 
 const buildAudioSrc = (fileName: string) => `${import.meta.env.BASE_URL}audios/${encodeURIComponent(fileName)}`;
 
+const buildLogoSrc = (fileName: string) => `${import.meta.env.BASE_URL}logos/${fileName}`;
+
 const buildSectionAudioText = (title: string, subtitle: string, items: { text: string }[]) => {
   return `${title}. ${subtitle} ${items.map((item) => item.text).join(". ")}.`;
 };
@@ -128,7 +130,7 @@ const Index = () => {
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <Heart className="text-primary w-8 h-8" />
               <div>
@@ -138,7 +140,24 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            <TextToSpeech 
+            <div className="flex items-center gap-3">
+              <img
+                src={buildLogoSrc("brasao-uncisal.png")}
+                alt="Brasão UNCISAL"
+                className="h-10 sm:h-12 w-auto object-contain"
+              />
+              <img
+                src={buildLogoSrc("cer-bg.png")}
+                alt="CER"
+                className="h-14 sm:h-16 w-auto object-contain"
+              />
+              <img
+                src={buildLogoSrc("pet-saude.png")}
+                alt="PET Saúde"
+                className="h-7 sm:h-8 w-auto object-contain"
+              />
+            </div>
+            <TextToSpeech
               text="Bem-vindo ao Cuidar de Quem Cuida. Uma ferramenta para ajudar pais e cuidadores a prevenir a sobrecarga emocional e o burnout parental. Use os botões de áudio para ouvir o conteúdo de cada seção."
               audioSrc={headerAudioSrc}
               className="hidden sm:flex"
@@ -277,10 +296,13 @@ const Index = () => {
             <p className="text-xs text-muted-foreground mb-2">
               Projeto desenvolvido para o <strong>PET Saúde da UNCISAL</strong>
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground mb-2">
               <strong>Desenvolvido pelas alunas:</strong><br />
               Vitória Manuelly Alves Ribeiro - Tecnologia em Radiologia<br />
               Daniely Evellin da Silva Vasconcelos - Sistemas para Internet
+            </p>
+            <p className="text-xs text-muted-foreground">
+              <strong>Preceptora:</strong> Janayna Mara Silva Cajueiro
             </p>
           </div>
         </div>
